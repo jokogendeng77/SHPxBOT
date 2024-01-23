@@ -1,8 +1,6 @@
 # SHPxBOT
 Bot Assistant untuk para live streamer di platform shopee. Cocok buat temen-temen yang live nya masih sendiri belum ada moderator hehew
-
-╓─────────────────────────────────────────────────────────────────────╖
-║                                                                     ║
+```
 ║   [1] SHP Tambah Produk (CSV)                                       ║
 ║   [2] SHP Tambah Produk + Filter Komisi (CAT ID)                    ║
 ║   [3] SHP Tambah Produk + Filter Komisi (Keyword) ![EXPERIMENTAL]   ║
@@ -21,8 +19,7 @@ Bot Assistant untuk para live streamer di platform shopee. Cocok buat temen-teme
 ║   [16] SHP Auto Host Komen                                          ║
 ║   [17] SHP Auto Host Interaktif & Anti Haters                       ║
 ║   [18] SHP Auto Lelang                                              ║
-║                                                                     ║
-╙─────────────────────────────────────────────────────────────────────╜
+```
 FITUR & KEGUNAAN: 
 Untuk saat ini fitur-fitur ini masih sederhana silahkan dicoba sendiri yaa..
 Untuk fitur experimental, kemungkinan keberhasilan masih dibawah 50% karena masih beta..
