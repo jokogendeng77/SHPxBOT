@@ -1,5 +1,7 @@
 # SHPxBOT
+
 Bot Assistant untuk para live streamer di platform shopee. Cocok buat temen-temen yang live nya masih sendiri belum ada moderator hehew
+
 ```
    ║   [1] Tambah Produk (CSV)                               [13] [LIVE] Check Vouchers                            ║
    ║   [2] Tambah Produk + Filter Komisi (CAT ID)            [14] [LIVE] Auto Tampil Request Product               ║
@@ -18,18 +20,28 @@ Bot Assistant untuk para live streamer di platform shopee. Cocok buat temen-teme
    Fitur Upcoming : 21, 22, 23 (Masih dalam tahap internal testing) 
 ```
 
-FITUR & KEGUNAAN: 
+FITUR & KEGUNAAN:
 Untuk saat ini fitur-fitur ini masih sederhana silahkan dicoba sendiri yaa..
 Untuk fitur experimental, kemungkinan keberhasilan masih dibawah 50% karena masih beta..
 
+CARA INSTALL :
 
-CARA INSTALL : 
 1. Install NodeJS
-2. clone git ```git clone https://github.com/jokogendeng77/SHPxBOT.git```
-3. masuk ke folder denganm ```cd SHPxBOT```
-4. buka terminal/cmd dan jalankan ```npm install```
-5. lalu jalankan dengan ```node SHPBOT.js```
+2. clone git `git clone https://github.com/jokogendeng77/SHPxBOT.git`
+3. masuk ke folder denganm `cd SHPxBOT`
+4. extract filenya kemudian masuk ke folder hasil extractnya
+4. buka terminal/cmd dan jalankan `npm install`
+5. lalu jalankan dengan `node SHPBOT.js`
 6. Silahkan gunakan sesuai dengan opsi yang tertera, terima kasih!
 
+CHANGELOG :
+```Hi Hi,
+Unbanned live sangat tidak stabil dan sering update untuk saat ini, saat ini fitur ini tetap membutuhkan hp untuk melakukan start live dan kemudian di Home.
+
+Fitur lain sudah disempurnakan, silahkan berikan feedback di grup bila ada yang belum berfungsi dengan baik di kamu yaa...
+
+BABAYY!```
+
+
 Disclaimer :
-```Saya tidak bergantung jawab apabila terjadi masalah pada akun, fasilitas ini hanya untuk membantu dalam hal live shopee. Fasilitas ini tidak bekerjasama atau beraffliasi dengan platform shopee. Dengan menggunakan fasilitas ini pengguna bertanggung jawab terhadap akunnya dan tindakannya.```
+Saya tidak bergantung jawab apabila terjadi masalah pada akun, fasilitas ini hanya untuk membantu dalam hal live shopee. Fasilitas ini tidak bekerjasama atau beraffliasi dengan platform shopee. Dengan menggunakan fasilitas ini pengguna bertanggung jawab terhadap akunnya dan tindakannya.
