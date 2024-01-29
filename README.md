@@ -14,8 +14,8 @@ Bot Assistant untuk para live streamer di platform shopee. Cocok buat temen-teme
    ║   [11] [LIVE] Auto Banned Bad Komen                     [23] [TOOL] Video Restream All -> Shopee!             ║
    ║   [12] [LIVE] Check Status                                                                                    ║
 
-   Fitur Eksperimental : 3, 19, 20
-   Fitur Upcoming : 21, 22, 23 (Masih dalam tahap internal testing) 
+   Fitur Eksperimental : 3, 19, 20, 22, 23
+   Fitur Upcoming : 21 (Masih dalam tahap internal testing) 
 ```
 
 FITUR & KEGUNAAN: 
