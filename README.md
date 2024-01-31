@@ -32,4 +32,4 @@ CARA INSTALL :
 6. Silahkan gunakan sesuai dengan opsi yang tertera, terima kasih!
 
 Disclaimer :
-```Saya tidak bergantung jawab apabila terjadi masalah pada akun, fasilitas ini hanya untuk membantu dalam hal live shopee. Fasilitas ini tidak bekerjasama atau beraffliasi dengan platform shopee. Dengan menggunakan fasilitas ini pengguna bertanggung jawab terhadap akunnya dan tindakannya.```
+```Saya tidak bertanggung jawab apabila terjadi masalah pada akun, fasilitas ini hanya untuk membantu dalam hal live shopee. Fasilitas ini tidak bekerjasama atau beraffliasi dengan platform shopee. Dengan menggunakan fasilitas ini pengguna bertanggung jawab terhadap akunnya dan tindakannya.```
