@@ -12,9 +12,9 @@ Bot Assistant untuk para live streamer di platform shopee. Cocok buat temen-teme
    ║   [9] [LIVE] Bom Komen                                  [21] [LIVE] Paket Rebahan (Akun fresh -> GACOR)       ║
    ║   [10] [LIVE] Auto Share Voucher                        [22] [TOOL] Video Downloader (TT, SHP, TOPED, dll)!   ║
    ║   [11] [LIVE] Auto Banned Bad Komen                     [23] [TOOL] Video Restream All -> Shopee!             ║
-   ║   [12] [LIVE] Check Status                                                                                    ║
+   ║   [12] [LIVE] Check Status                              [24] [TOOL] Video Stream File -> Shopee!              ║
 
-   Fitur Eksperimental : 3, 19, 20, 22, 23
+   Fitur Eksperimental : 3, 19, 20, 22, 23, 24
    Fitur Upcoming : 21 (Masih dalam tahap internal testing) 
 ```
 
