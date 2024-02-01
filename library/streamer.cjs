@@ -2,11 +2,11 @@ const ffmpeg = require("fluent-ffmpeg");
 const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 const fs = require("fs").promises;
-const {mkdirSync} = require("fs");
-const {isFileExist} = require("./file_helper.cjs");
+const { mkdirSync } = require("fs");
+const { isFileExist } = require("./file_helper.cjs");
 const chalk = require("chalk");
-const path = require('path')
-const shell = require('shelljs')
+const path = require("path");
+const shell = require("shelljs");
 
 function decodeUnicodeEscape(url) {
   return url.replace(/\\u([\d\w]{4})/gi, (match, grp) => {
@@ -14,12 +14,18 @@ function decodeUnicodeEscape(url) {
   });
 }
 
-const reStreamShopee = async ({videoUrl, rtmpServer = null, rtmpKey = null, isInfiniteMode = false, streamDuration = null}) => {
+const reStreamShopee = async ({
+  videoUrl,
+  rtmpServer = null,
+  rtmpKey = null,
+  isInfiniteMode = false,
+  streamDuration = null,
+}) => {
   try {
     let streamData = null;
-    let liveUrl = null;
+    let liveUrl = `${__dirname}/../stream_input/${videoUrl}`;
     let mode = "stream";
-    if(!videoUrl.includes("stream_input")){
+    if (!videoUrl.includes("mp4") && !videoUrl.includes("flv")) {
       streamData = await getShopeeStreamDetails(videoUrl);
       if (!streamData) {
         throw new Error("Stream details could not be retrieved.");
@@ -48,19 +54,15 @@ const reStreamShopee = async ({videoUrl, rtmpServer = null, rtmpKey = null, isIn
 
     if (rtmpServer && rtmpKey) {
       console.log("Re-Steam started!..");
-      ffmpegProcess
-        .output(`${rtmpServer}/${rtmpKey}`)
-        .format("flv");
+      ffmpegProcess.output(`${rtmpServer}/${rtmpKey}`).format("flv");
     }
 
     if (streamDuration) {
       ffmpegProcess.duration(streamDuration);
     }
 
-    if (mode === "restream"){
-      ffmpegProcess
-      .output(flvFilePath)
-      .format("flv");
+    if (mode === "restream") {
+      ffmpegProcess.output(flvFilePath).format("flv");
     }
 
     // Event listeners for ffmpeg process
@@ -77,8 +79,14 @@ const reStreamShopee = async ({videoUrl, rtmpServer = null, rtmpKey = null, isIn
       .on("stderr", (stderrLine) => console.log(stderrLine))
       .on("end", async () => {
         console.log("Streaming finished.");
-        if(isInfiniteMode){
-          await handleStreamEnd(isInfiniteMode, flvFilePath, mp4FilePath, rtmpServer, rtmpKey);
+        if (isInfiniteMode) {
+          await handleStreamEnd(
+            isInfiniteMode,
+            flvFilePath,
+            mp4FilePath,
+            rtmpServer,
+            rtmpKey
+          );
         }
         return "Streaming finished.";
       });
@@ -90,12 +98,18 @@ const reStreamShopee = async ({videoUrl, rtmpServer = null, rtmpKey = null, isIn
   }
 };
 
-async function handleStreamEnd(isInfiniteMode, flvFilePath, mp4FilePath, rtmpServer, rtmpKey) {
+async function handleStreamEnd(
+  isInfiniteMode,
+  flvFilePath,
+  mp4FilePath,
+  rtmpServer,
+  rtmpKey
+) {
   // Convert FLV to MP4
   await convertFlvToMp4(flvFilePath, mp4FilePath);
   // Check if the file exists
   const isMp4 = await isFileExist(mp4FilePath);
-  
+
   if (isInfiniteMode) {
     console.log(chalk.green("\nRestarting the stream..."));
     const videoFile = isMp4 ? mp4FilePath : flvFilePath;
@@ -115,33 +129,53 @@ async function handleStreamEnd(isInfiniteMode, flvFilePath, mp4FilePath, rtmpSer
 }
 
 function cleanup(ffmpegProcess) {
-  ffmpegProcess.kill('SIGKILL');
-  console.log("Cleaning Up ffmpeg..")
+  ffmpegProcess.kill("SIGKILL");
+  console.log("Cleaning Up ffmpeg..");
 }
 
+const streamDownloader = async ({
+  videoUrl,
+  durasiVideo = null,
+  rtmpServer = null,
+  rtmpKey = null,
+  isInfinite = false,
+}) => {
+  try {
+    const streamProvider = getStreamProvider(videoUrl);
+    let result = null;
+    switch (streamProvider) {
+      case "shopee":
+      case "filestream":
+        result = await reStreamShopee({
+          videoUrl,
+          streamDuration: durasiVideo ? durasiVideo * 60 : null,
+          rtmpServer,
+          rtmpKey,
+          isInfiniteMode: isInfinite,
+        });
+        break;
 
-const streamDownloader = async ({videoUrl, durasiVideo = null, rtmpServer = null, rtmpKey = null, isInfinite = false}) => {
-  const streamProvider = getStreamProvider(videoUrl);
-  let result = null;
-  switch (streamProvider) {
-    case "shopee":
-    case "filestream": 
-      result = await reStreamShopee({videoUrl, streamDuration:durasiVideo?durasiVideo*60:null, rtmpServer, rtmpKey, isInfiniteMode:isInfinite});
-      break;
+      case "tiktok":
+        result = await tiktokDownload(videoUrl);
+        break;
 
-    case "tiktok":
-      result = await tiktokDownload(videoUrl)
-      break;
-
-    default:
-      throw Error(`Platform "${streamProvider}" Not Supported Yet!`);
+      default:
+        throw Error(`Platform "${streamProvider}" Not Supported Yet!`);
+    }
+    return result;
+  } catch (err) {
+    throw Error(err);
   }
-  return result;
-}
+};
 
 const getStreamProvider = (videoUrl) => {
-  const url = new URL(videoUrl);
-  const hostname = url.hostname;
+  let hostname = "";
+  if (videoUrl.includes("http")) {
+    const url = new URL(videoUrl);
+    hostname = url.hostname;
+  } else {
+    hostname = "filestream";
+  }
   if (hostname.includes("tiktok.com")) {
     return "tiktok";
   } else if (hostname.includes("youtube.com")) {
@@ -154,12 +188,12 @@ const getStreamProvider = (videoUrl) => {
     return "tokopedia";
   } else if (hostname.includes("shopee.co.id")) {
     return "shopee";
-  } else if (protocol.includes("file")) {
+  } else if (hostname.includes("file")) {
     return "filestream";
   } else {
     return hostname;
   }
-}
+};
 
 const getShopeeStreamDetails = async (videoUrl) => {
   const url = new URL(videoUrl);
@@ -199,45 +233,49 @@ const getShopeeStreamDetails = async (videoUrl) => {
   return response;
 };
 
-const tiktokDownload = async (videoUrl, output="stream_output", format="mp4") => {
+const tiktokDownload = async (
+  videoUrl,
+  output = "stream_output",
+  format = "mp4"
+) => {
   return new Promise(async (resolve, reject) => {
     try {
-  const splitUsername = videoUrl.split('/');
-  const tt_username = splitUsername[splitUsername.length - 2].replace('@', '');
-  const tiktokUrl = `https://www.tiktok.com/@${tt_username}/live`
-  const textHtml = await fetch(tiktokUrl, {
-    headers: {
-      'User-Agent':
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) ' +
-        'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36',
-    },
-  }).then((res) => res.text())
-  const matchRoomId = textHtml.match(/room_id=(\d+)/)
-  if (!matchRoomId) {
-    throw new Error('No live stream found')
-  }
-  const roomId = matchRoomId[1]
-  console.info(`\nFound live stream with room id ${roomId}!`)
-  const api = `https://www.tiktok.com/api/live/detail/?aid=1988&roomID=${roomId}`
-  const {LiveRoomInfo} = await fetch(api).then((res) => res.json())
-  const {title, liveUrl} = LiveRoomInfo;
-  console.log(title, liveUrl, LiveRoomInfo);
-  const fileName = output.endsWith(format)
-    ? output
-    : `${output.replace(
-        /\/$/,
-        ''
-      )}/${tt_username}-${Date.now()}.${format}`
-  const ffmpegCommand = `ffmpeg -i "${liveUrl}" -c copy "${fileName}" -n -nostats -hide_banner -loglevel error`
-  mkdirSync(path.dirname(fileName), { recursive: true })
-  console.info(`\nDownloading livestream ${title} to /${fileName}`)
-  console.info(`\nCtrl+C to stop downloading and exit`)
-  shell.exec(ffmpegCommand, { async: true })
-}catch (error) {
-    reject(error);
-  }
-});
-}
+      const splitUsername = videoUrl.split("/");
+      const tt_username = splitUsername[splitUsername.length - 2].replace(
+        "@",
+        ""
+      );
+      const tiktokUrl = `https://www.tiktok.com/@${tt_username}/live`;
+      const textHtml = await fetch(tiktokUrl, {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) " +
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36",
+        },
+      }).then((res) => res.text());
+      const matchRoomId = textHtml.match(/room_id=(\d+)/);
+      if (!matchRoomId) {
+        throw new Error("No live stream found");
+      }
+      const roomId = matchRoomId[1];
+      console.info(`\nFound live stream with room id ${roomId}!`);
+      const api = `https://www.tiktok.com/api/live/detail/?aid=1988&roomID=${roomId}`;
+      const { LiveRoomInfo } = await fetch(api).then((res) => res.json());
+      const { title, liveUrl } = LiveRoomInfo;
+      console.log(title, liveUrl, LiveRoomInfo);
+      const fileName = output.endsWith(format)
+        ? output
+        : `${output.replace(/\/$/, "")}/${tt_username}-${Date.now()}.${format}`;
+      const ffmpegCommand = `ffmpeg -i "${liveUrl}" -c copy "${fileName}" -n -nostats -hide_banner -loglevel error`;
+      mkdirSync(path.dirname(fileName), { recursive: true });
+      console.info(`\nDownloading livestream ${title} to /${fileName}`);
+      console.info(`\nCtrl+C to stop downloading and exit`);
+      shell.exec(ffmpegCommand, { async: true });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 
 async function getVideoFileInfo(inputPath) {
   const { stdout } = await exec(
@@ -286,4 +324,10 @@ async function convertFlvToMp4(inputPath, outputPath) {
   }
 }
 
-module.exports = { reStreamShopee, getShopeeStreamDetails, convertFlvToMp4, decodeUnicodeEscape, streamDownloader };
+module.exports = {
+  reStreamShopee,
+  getShopeeStreamDetails,
+  convertFlvToMp4,
+  decodeUnicodeEscape,
+  streamDownloader,
+};
