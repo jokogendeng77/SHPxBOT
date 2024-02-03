@@ -26,13 +26,11 @@ Untuk fitur experimental, kemungkinan keberhasilan masih dibawah 50% karena masi
 
 CARA INSTALL :
 
-1. Install NodeJS
-2. clone git `git clone https://github.com/jokogendeng77/SHPxBOT.git`
-3. masuk ke folder denganm `cd SHPxBOT`
-4. extract filenya kemudian masuk ke folder hasil extractnya
-4. buka terminal/cmd dan jalankan `npm install`
-5. lalu jalankan dengan `node SHPBOT.js`
-6. Silahkan gunakan sesuai dengan opsi yang tertera, terima kasih!
+- Buka file install-win.bat dengan cara klik kanan "Run As Administrator" untuk Windows
+- Buka file install-linux.sh dengan cara "sh ./install-linux.sh" untuk Linux
+- Jika sudah selesai install, selanjutnya bisa menjalankan bot dengan cara :
+   - Untuk Windows : Buka file SHPBOT-win.bat dengan cara double klik filenya
+   - Untuk Linux : Buka file SHPBOT-linux.sh dengan cara "sh ./SHPBOT-linux.sh"
 
 CHANGELOG :
 ```Hi Hi,
@@ -44,4 +42,4 @@ BABAYY!```
 
 
 Disclaimer :
-Saya tidak bergantung jawab apabila terjadi masalah pada akun, fasilitas ini hanya untuk membantu dalam hal live shopee. Fasilitas ini tidak bekerjasama atau beraffliasi dengan platform shopee. Dengan menggunakan fasilitas ini pengguna bertanggung jawab terhadap akunnya dan tindakannya.
+Saya tidak bertanggung jawab apabila terjadi masalah pada akun, fasilitas ini hanya untuk membantu dalam hal live shopee. Fasilitas ini tidak bekerjasama atau beraffliasi dengan platform shopee. Dengan menggunakan fasilitas ini pengguna bertanggung jawab terhadap akunnya dan tindakannya.
