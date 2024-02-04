@@ -11,6 +11,11 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
+echo ================ SHPxBOT Installer =====================
+
+
+
+echo Checking chocolatey installation....
 REM Check if Chocolatey is installed
 where choco >nul 2>&1
 if %errorlevel% neq 0 (
@@ -23,41 +28,38 @@ if %errorlevel% neq 0 (
 REM Wait for Chocolatey to settle
 timeout /t 2 /nobreak >nul
 
+echo Checking NodeJS installation....
 REM Install Node.js if not already installed
 where node >nul 2>&1
 if %errorlevel% neq 0 (
-    echo Node.js is not installed. Installing Node.js...
-    start cmd /k choco install nodejs-lts -y
+    echo NodeJS is not installed. Installing NodeJS...
+    call :RunCommand start /wait cmd /c "choco install nodejs-lts -y && timeout /t 2 /nobreak >nul"
 ) else (
-    echo Node.js is already installed.
+    echo Nodejs is already installed.
 )
 
-REM Wait for Node.js installation to settle
-timeout /t 2 /nobreak >nul
 
+echo Checking Volta installation....
 REM Install Volta if not already installed
 where volta >nul 2>&1
 if %errorlevel% neq 0 (
     echo Volta is not installed. Installing Volta...
-    start cmd /k choco install volta -y
+    call :RunCommand start /wait cmd /c "choco install volta -y && timeout /t 2 /nobreak >nul"
 ) else (
     echo Volta is already installed.
 )
 
-REM Wait for Volta installation to settle
-timeout /t 2 /nobreak >nul
 
+echo Checking FFMPEG installation....
 REM Install FFmpeg if not already installed
 where ffmpeg >nul 2>&1
 if %errorlevel% neq 0 (
-    echo FFmpeg is not installed. Installing FFmpeg...
-    start cmd /k choco install ffmpeg -y
+    echo FFMPEG is not installed. Installing FFMPEG...
+    call :RunCommand start /wait cmd /c "choco install ffmpeg-full -y && timeout /t 2 /nobreak >nul"
 ) else (
-    echo FFmpeg is already installed.
+    echo FFMPEG is already installed.
 )
 
-REM Wait for FFmpeg installation to settle
-timeout /t 2 /nobreak >nul
 
 REM Get the path of the batch script
 set "script_path=%~dp0"
@@ -65,8 +67,43 @@ set "script_path=%~dp0"
 REM Move to the script dir
 cd /d "%script_path%"
 
+REM Check if ffmpeg.exe and ffprobe.exe exist in the directory
+if not exist ffmpeg.exe (
+    echo Downloading ffmpeg-release-essentials.zip...
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "& { Invoke-WebRequest 'https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip' -OutFile 'ffmpeg-release-essentials.zip'; Write-Output 'Download complete.' }"
+
+    REM Extract ffmpeg binary from bin folder
+    if exist ffmpeg-release-essentials.zip (
+        echo Extracting ffmpeg binary...
+        powershell -Command "$progressPreference = 'SilentlyContinue'; Expand-Archive -Path .\ffmpeg-release-essentials.zip -DestinationPath .\ -Force -Verbose"
+        move .\ffmpeg-release-essentials_build\bin\ffmpeg.exe .\
+        move .\ffmpeg-release-essentials_build\bin\ffprobe.exe .\
+        rmdir /s /q .\ffmpeg-release-essentials_build
+        del ffmpeg-release-essentials.zip
+    )
+) else (
+    echo FFMPEG is fully installed.
+)
+
+echo ================ SHPxBOT Installation Success =====================
+
+
+
+echo "Installing Dependencies & Running BOT...."
 REM Open a new terminal for subsequent commands
-start cmd /k call "%script_path%SHPBOT-win.bat"
+where node >nul 2>&1
+if %errorlevel% neq 0 (
+     call :RunCommand start /wait cmd /c "%script_path%SHPBOT-win.bat"
+) else (
+    call "%script_path%SHPBOT-win.bat"
+)
 
 REM Prompt user before closing
 pause
+exit /b 0
+
+:RunCommand
+echo Running command: %*
+%*
+timeout /t 2 /nobreak >nul
+goto :eof
