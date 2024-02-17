@@ -1,12 +1,6 @@
-const ffmpeg = require("fluent-ffmpeg");
-const util = require("util");
-const exec = util.promisify(require("child_process").exec);
-const fs = require("fs").promises;
 const {mkdirSync} = require("fs");
-const {isFileExist} = require("./file_helper.cjs");
 const chalk = require("chalk");
 const path = require('path')
-const shell = require('shelljs')
 
 let ffmpegGlobalProcess = null;
 
@@ -15,74 +9,148 @@ function decodeUnicodeEscape(url) {
     return String.fromCharCode(parseInt(grp, 16));
   });
 }
-
 const videoProcessing = async ({liveUrl, rtmpServer = null, rtmpKey = null, isInfiniteMode = false, streamDuration = null, baseFilePath = "", mode = "stream"}) =>{
-  const flvFilePath = `${baseFilePath}.flv`;
-  const mp4FilePath = `${baseFilePath}.mp4`;
-  
-  // Create ffmpeg process
-  ffmpegGlobalProcess = ffmpeg(liveUrl)
-  .inputOptions(["-re", "-stream_loop -1"])
-  .outputOptions([
-    "-r 30",
-    "-s 720x1280",
-    "-b:v 800k",
-    "-c:v libx264",
-    "-preset superfast",
-    "-c:a aac",
-    "-f flv",
-    "-maxrate 800k",
-    "-bufsize 800k", 
-    "-nostats", 
-    "-hide_banner", 
-    "-loglevel error"
-  ]);
-
-if (rtmpServer && rtmpKey) {
-  console.log("Re-Steam started!..");
-  ffmpegGlobalProcess
-    .output(`${rtmpServer}/${rtmpKey}`)
-    .format("flv");
-}
-
-if (streamDuration) {
-  ffmpegGlobalProcess.duration(streamDuration);
-}
-
-if (mode === "restream"){
-  ffmpegGlobalProcess
-  .output(flvFilePath)
-  .format("flv");
-}
-
-// Event listeners for ffmpeg process
-ffmpegGlobalProcess
-  .on("error", (err, stdout, stderr) => {
-    console.error(chalk.red("Error:"), err);
-    console.error("ffmpeg stdout:", stdout);
-    console.error("ffmpeg stderr:", stderr);
-    cleanup(ffmpegGlobalProcess);
-  })
-  .on("progress", (progress) => {
-    // console.log("PROGRESS", progress);
-  })
-  .on("stderr", (stderrLine) => console.log(stderrLine))
-  .on("end", async () => {
-    console.log("Streaming finished.");
-    if(isInfiniteMode){
-      await handleStreamEnd(isInfiniteMode, flvFilePath, mp4FilePath, rtmpServer, rtmpKey);
+  console.log(chalk.blue("Starting the streaming process. Please wait..."));
+  const childProcess = require("child_process");
+  const {existsSync} = require("fs");
+  let outputDestination;
+  let secondaryOutput = null;
+  // Dynamically import boxen due to ES Module requirement
+  if (mode === "restream") {
+    if (rtmpServer && rtmpKey) {
+      outputDestination = `${rtmpServer}${rtmpKey}`;
+      secondaryOutput = `${baseFilePath}.flv`;
+    } else {
+      outputDestination = `${baseFilePath}.flv`;
     }
-    return "Streaming finished.";
+  } else {
+    outputDestination = `${rtmpServer}${rtmpKey}`;
+  }
+
+  // Function to generate a unique file name to avoid conflicts
+  const generateUniqueFileName = (baseName, extension) => {
+    let counter = 0;
+    let uniqueName = `${baseName}${counter > 0 ? `-${counter}` : ''}.${extension}`;
+    while (existsSync(uniqueName)) {
+      counter++;
+      uniqueName = `${baseName}${counter > 0 ? `-${counter}` : ''}.${extension}`;
+    }
+    return uniqueName;
+  };
+
+  // Adjusting file names to be unique if necessary
+  if (secondaryOutput && existsSync(secondaryOutput)) {
+    secondaryOutput = generateUniqueFileName(baseFilePath, 'flv');
+  }
+  if (existsSync(outputDestination)) {
+    const extension = outputDestination.split('.').pop();
+    outputDestination = generateUniqueFileName(baseFilePath, extension);
+  }
+
+  process.stdout.clearLine(0);
+  process.stdout.cursorTo(0);
+  const messageComponents = [
+    chalk.white('Live Url : ')+chalk.red(`${liveUrl}`),
+    chalk.white('Output Destination : ')+chalk.yellow(`${outputDestination}`),
+    chalk.white('Secondary Output : ')+chalk.green(`${secondaryOutput || 'Not Applicable'}`)
+  ];
+  const message = messageComponents.join('\n');
+  // Ensuring borderLength is not negative
+  const borderLength = Math.max(0, message.length - chalk.reset(message).length + 20);
+  const border = chalk.blue('='.repeat(borderLength));
+  process.stdout.write(`${border}\n${message}\n${border}`);
+  const ffmpegArgs = [
+    "-re", 
+    "-stream_loop", "-1", 
+    "-i", liveUrl, 
+    "-r", "30", 
+    "-b:v", "2000k", 
+    "-c:v", "libx264", 
+    "-preset", "veryfast", 
+    "-c:a", "aac", 
+    "-f", "flv", 
+    "-loglevel", "info",
+    "-hide_banner",
+    outputDestination
+  ];
+
+  if (secondaryOutput) {
+    ffmpegArgs.push(secondaryOutput);
+  }
+
+  if (streamDuration) {
+    ffmpegArgs.push("-t", streamDuration.toString());
+  }
+
+  ffmpegGlobalProcess = childProcess.spawn("ffmpeg", ffmpegArgs);
+  let errorCount = 0;
+  let totalSeconds = 0, currentTime = 0;
+
+  ffmpegGlobalProcess.stderr.on("data", data => {
+    const message = data.toString();
+    const durationRegex = /Duration: (\d{2}):(\d{2}):(\d{2})\.\d{2},/;
+    const timeRegex = /time=(\d{2}):(\d{2}):(\d{2})\.\d{2}/;
+    const durationMatch = message.match(durationRegex);
+    const timeMatch = message.match(timeRegex);
+
+    if (durationMatch) {
+      totalSeconds = parseInt(durationMatch[1]) * 3600 + parseInt(durationMatch[2]) * 60 + parseInt(durationMatch[3]);
+    }
+
+    if (timeMatch) {
+      currentTime = parseInt(timeMatch[1]) * 3600 + parseInt(timeMatch[2]) * 60 + parseInt(timeMatch[3]);
+      const progress = (currentTime / totalSeconds * 100).toFixed(2);
+      process.stdout.clearLine(0);
+      process.stdout.cursorTo(0);
+      process.stdout.write(chalk.green(`Streaming Progress: [${progress}%]  | Time Elapsed: ${currentTime} seconds`));
+    }
+    if (message.includes("error")) {
+      errorCount += 1;
+      if (errorCount > 5) {
+        console.log(chalk.red("We encountered a problem and need to stop. Please try again."));
+        ffmpegGlobalProcess.kill('SIGINT');
+      }
+    }
+  });
+  ffmpegGlobalProcess.on("close", (code, signal) => {
+    const exitMessage = `Streaming process exited with code: ${code} and signal: ${signal}`;
+    const restartMessage = "Restarting in 3 seconds...";
+    const restartProcess = () => {
+      setTimeout(() => {
+        try {
+          videoProcessing({liveUrl: secondaryOutput, rtmpServer, rtmpKey, isInfiniteMode, streamDuration, baseFilePath, mode});
+        } catch (error) {
+          console.error(chalk.red(`Error restarting streaming process: ${error.message}`));
+        }
+      }, 3000);
+    };
+
+    if (code !== 0) {
+      console.log(chalk.magenta(exitMessage));
+      console.log(chalk.yellow("The streaming process has ended unexpectedly. Attempting to restart..."));
+    } else {
+      console.log(chalk.green("Streaming completed successfully."));
+    }
+
+    if (isInfiniteMode || (errorCount <= 5 && mode === "restream" && rtmpServer && rtmpKey)) {
+      console.log(chalk.blue(restartMessage));
+      restartProcess();
+    }
   });
 
-// Start the ffmpeg process
-ffmpegGlobalProcess.run();
+  process.on("SIGINT", () => {
+    console.log(chalk.magenta("Streaming has been stopped. Thank you for using our service."));
+    if (ffmpegGlobalProcess) {
+      ffmpegGlobalProcess.kill('SIGINT');
+    }
+    process.exit();
+  });
 }
-
 const reStreamShopee = async ({videoUrl, rtmpServer = null, rtmpKey = null, isInfiniteMode = false, streamDuration = null}) => {
+  return new Promise(async (resolve, reject) => {
   try {
     let streamData = null;
-    let liveUrl = `${__dirname}/../stream_input/${videoUrl}`;
+    let liveUrl = `${__dirname}/../${videoUrl}`;
     let mode = "stream";
     if(!videoUrl.includes("mp4") && !videoUrl.includes("flv")){
       streamData = await getShopeeStreamDetails(videoUrl);
@@ -97,38 +165,10 @@ const reStreamShopee = async ({videoUrl, rtmpServer = null, rtmpKey = null, isIn
     await videoProcessing({liveUrl, rtmpServer, rtmpKey, isInfiniteMode, streamDuration, baseFilePath, mode});
     
   } catch (error) {
+    reject(error);
     console.error("Error in reStreamShopee function: ", error);
-  }
+  }});
 };
-
-async function handleStreamEnd(isInfiniteMode, flvFilePath, mp4FilePath, rtmpServer, rtmpKey) {
-  // Convert FLV to MP4
-  await convertFlvToMp4(flvFilePath, mp4FilePath);
-  // Check if the file exists
-  const isMp4 = await isFileExist(mp4FilePath);
-  
-  if (isInfiniteMode) {
-    console.log(chalk.green("\nRestarting the stream..."));
-    const videoFile = isMp4 ? mp4FilePath : flvFilePath;
-    // Restart the stream in infinite mode
-    let ffmpegProcess = ffmpeg(videoFile)
-      .inputOptions(["-re", "-stream_loop -1"])
-      .output(`${rtmpServer}/${rtmpKey}`)
-      .format("flv")
-      .on("error", (err) => {
-        console.error(chalk.red("Error during infinite streaming:"), err);
-        cleanup(ffmpegProcess);
-      })
-      .run();
-  } else {
-    console.log(chalk.green("\nConversion finished."));
-  }
-}
-
-function cleanup(ffmpegProcess) {
-  ffmpegProcess.kill('SIGKILL');
-  console.log("Cleaning Up ffmpeg..")
-}
 
 
 const streamDownloader = async ({videoUrl, durasiVideo = null, rtmpServer = null, rtmpKey = null, isInfinite = false}) => {
@@ -243,9 +283,8 @@ const tiktokStreamData = async (username) => {
 }
 
 const tiktokDownload = async ({videoUrl, output="stream_output", format="mp4", duration=0, rtmpKey=null, rtmpServer=null, isInfiniteMode=false}) => {
-  // return new Promise(async (resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     try {
-  // const recDuration = duration > 0 ? `-t ${duration}` : "";
   const splitUsername = videoUrl.split('/');
   const tt_username = splitUsername[splitUsername.length - 2].replace('@', '');
   const {title, liveUrl} = await tiktokStreamData(tt_username);
@@ -254,72 +293,17 @@ const tiktokDownload = async ({videoUrl, output="stream_output", format="mp4", d
     : `${output.replace(
         /\/$/,
         ''
-      )}/${tt_username}-${Date.now()}`
+      )}/${tt_username}-${Date.now()}.${format}`
   mkdirSync(path.dirname(fileName), { recursive: true })
   await videoProcessing({liveUrl, rtmpServer, rtmpKey, isInfiniteMode, streamDuration: duration, baseFilePath:fileName, mode:"restream"});
-  // const ffmpegCommand = `ffmpeg -i "${liveUrl}" -r 30 -s 720x1280 -b:v 800k -c:v libx264 -preset superfast -c:a aac -maxrate 800k -bufsize 800k "${fileName}" ${recDuration} -n -nostats -hide_banner -loglevel error`;
-  
-  console.info(`\nDownloading livestream ${title} to /${fileName}`)
   console.info(`\nCtrl+C to stop downloading and exit`)
-  // Listen for the Ctrl+C signal
-  // shell.exec(ffmpegCommand, { async: true }, (code, stdout, stderr) => {
-  //   if (code === 0) {
-  //     resolve(`Download completed: ${fileName}`);
-  //   } else {
-  //     reject(`Download failed with code ${code}: ${stderr}`);
-  //   }
-  // });
 }catch (error) {
     reject(error);
   }
-// });
+});
 }
 
-async function getVideoFileInfo(inputPath) {
-  const { stdout } = await exec(
-    `ffprobe.exe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "${inputPath}"`
-  );
-  const [width, height] = stdout.trim().split("x").map(Number);
-  return { width, height };
-}
 
-async function convertFlvToMp4(inputPath, outputPath) {
-  try {
-    const videoInfo = await getVideoFileInfo(inputPath);
-    // Determine the best video bitrate based on resolution
-    const maxBitrate = Math.min(
-      5000,
-      Math.floor((videoInfo.width * videoInfo.height) / 4000)
-    );
-    const videoBitrate = `${maxBitrate}k`;
-    await new Promise((resolve, reject) => {
-      ffmpeg()
-        .input(inputPath)
-        .outputOptions([
-          "-movflags frag_keyframe+empty_moov",
-          "-c:v libx264",
-          "-b:v " + videoBitrate,
-        ])
-        .videoCodec("libx264") // Re-encode the video stream
-        .videoBitrate(videoBitrate)
-        .output(outputPath)
-        .on("end", () => {
-          console.log("Conversion to MP4 finished.");
-          resolve();
-        })
-        .on("error", (err) => {
-          console.error("Error during MP4 conversion:", err);
-          reject(err);
-        })
-        .run();
-    });
 
-    // Remove the FLV file
-    await fs.unlink(inputPath);
-    console.log("FLV file removed:", inputPath);
-  } catch (error) {
-    console.error("Error in convertFlvToMp4:", error);
-  }
-}
+module.exports = { ffmpegGlobalProcess ,reStreamShopee, getShopeeStreamDetails, decodeUnicodeEscape, streamDownloader };
 
-module.exports = { ffmpegGlobalProcess ,reStreamShopee, getShopeeStreamDetails, convertFlvToMp4, decodeUnicodeEscape, streamDownloader };
