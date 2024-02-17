@@ -1,21 +1,25 @@
 # SHPxBOT
 Bot Assistant untuk para live streamer di platform shopee. Cocok buat temen-temen yang live nya masih sendiri belum ada moderator hehew
 ```
-   ║   [1] Tambah Produk (CSV)                               [13] [LIVE] Check Vouchers                            ║
-   ║   [2] Tambah Produk + Filter Komisi (CAT ID)            [14] [LIVE] Auto Tampil Request Product               ║
-   ║   [3] Tambah Produk + Filter Komisi (Keyword)           [15] [LIVE] Unban Live                                ║
-   ║   [4] Delete All Favorite                               [16] [LIVE] Auto Host Reply                           ║
-   ║   [5] [LIVE] Bom Like                                   [17] [LIVE] Auto Host Interaktif & Anti Haters        ║
-   ║   [6] [LIVE] Bom Share                                  [18] [LIVE] Auto Lelang                               ║
-   ║   [7] [LIVE] Bom Buy                                    [19] [LIVE] Paket BOM!                                ║
-   ║   [8] [LIVE] Bom View                                   [20] [LIVE] Paket Gacor (Harus sudah start Live!)     ║
-   ║   [9] [LIVE] Bom Komen                                  [21] [LIVE] Paket Rebahan (Akun fresh -> GACOR)       ║
-   ║   [10] [LIVE] Auto Share Voucher                        [22] [TOOL] Video Downloader (TT, SHP, TOPED, dll)!   ║
-   ║   [11] [LIVE] Auto Banned Bad Komen                     [23] [TOOL] Video Restream All -> Shopee!             ║
-   ║   [12] [LIVE] Check Status                              [24] [TOOL] Video Stream File -> Shopee!              ║
-
-   Fitur Eksperimental : 3, 19, 20, 22, 23, 24
-   Fitur Upcoming : 21 (Masih dalam tahap internal testing) 
+   ╓ MAIN MENU ────────────────────────────────────────────────────────────────────────────────────────────────────╖
+   ║                                                                                                               ║
+   ║   [1] Tambah Produk (CSV)                               [14] [LIVE] Auto Tampil Request Product               ║
+   ║   [2] Tambah Produk + Filter Komisi (CAT ID)            [15] [LIVE] Unban Live                                ║
+   ║   [3] Tambah Produk + Filter Komisi (Keyword)           [16] [LIVE] Auto Host Reply                           ║
+   ║   [4] Delete All Favorite                               [17] [LIVE] Auto Host Interaktif & Anti Haters        ║
+   ║   [5] [LIVE] Bom Like                                   [18] [LIVE] Auto Lelang                               ║
+   ║   [6] [LIVE] Bom Share                                  [19] [LIVE] Paket BOM!                                ║
+   ║   [7] [LIVE] Bom Buy                                    [20] [LIVE] Paket Gacor (Harus sudah start Live!)     ║
+   ║   [8] [LIVE] Bom View                                   [21] [LIVE] Paket Rebahan (Akun fresh -> GACOR)       ║
+   ║   [9] [LIVE] Bom Komen                                  [22] [TOOL] Video Downloader (TT, SHP, TOPED, dll)!   ║
+   ║   [10] [LIVE] Auto Share Voucher                        [23] [TOOL] Video Restream Live -> Shopee!            ║
+   ║   [11] [LIVE] Auto Banned Bad Komen                     [24] [TOOL] Video Stream File -> Shopee!              ║
+   ║   [12] [LIVE] Check Status                              [25] [TOOL] Export Favorite ke csv!                   ║
+   ║   [13] [LIVE] Check Vouchers                            [26] [TOOL] Clone Favorite dari Akun Lain!            ║
+   ║                                                                                                               ║
+   ╙───────────────────────────────────────────────────────────────────────────────────────────────────────────────╜
+**Fitur Ujicoba : [3, 25, 26]
+**Fitur Sedang Dikembangkan : [21]
 ```
 
 FITUR & KEGUNAAN: 
