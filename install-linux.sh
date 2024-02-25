@@ -6,29 +6,42 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-# Install Node.js if not already installed
+echo "=============== SHPxBOT Installer ====================="
+
+# Install Node.js and Python if not already installed
+echo "Checking NodeJS and Python installation...."
 if ! command -v node &> /dev/null; then
-    curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-    sudo apt-get install -y nodejs
+    echo "NodeJS is not installed. Attempting to install NodeJS and Python..."
+    sudo apt-get update
+    sudo apt-get install nodejs python3 -y
+    sleep 2
 else
-    echo "Node.js is already installed."
+    echo "Nodejs and Python are already installed."
 fi
 
-# Install Volta if not already installed
-if ! command -v volta &> /dev/null; then
-    curl https://get.volta.sh | bash
+echo "Checking Git installation...."
+# Install Git if not already installed
+if ! command -v git &> /dev/null; then
+    echo "Git is not installed. Attempting to install Git..."
+    sudo apt-get install git -y
+    sleep 2
 else
-    echo "Volta is already installed."
+    echo "Git is already installed."
 fi
 
+echo "Checking FFMPEG installation...."
 # Install FFmpeg if not already installed
 if ! command -v ffmpeg &> /dev/null; then
-    sudo apt-get update
+    echo "FFMPEG is not installed. Installing FFMPEG..."
     sudo apt-get install ffmpeg -y
+    sleep 2
 else
-    echo "FFmpeg is already installed."
+    echo "FFMPEG is already installed."
 fi
 
+echo "=============== SHPxBOT Installation Success ====================="
+
+echo "Installing Dependencies & Running BOT...."
 # Run npm install
 npm install
 
