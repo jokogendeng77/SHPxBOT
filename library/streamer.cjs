@@ -100,6 +100,9 @@ const videoProcessing = async ({liveUrl, rtmpServer = null, rtmpKey = null, isIn
     if (timeMatch) {
       currentTime = parseInt(timeMatch[1]) * 3600 + parseInt(timeMatch[2]) * 60 + parseInt(timeMatch[3]);
       const progress = (currentTime / totalSeconds * 100).toFixed(2);
+      if(streamDuration && currentTime >= streamDuration){
+        ffmpegGlobalProcess.kill('SIGINT');
+      }
       process.stdout.clearLine(0);
       process.stdout.cursorTo(0);
       process.stdout.write(chalk.green(`Streaming Progress: [${progress}%]  | Time Elapsed: ${currentTime} seconds`));
@@ -161,7 +164,8 @@ const reStreamShopee = async ({videoUrl, rtmpServer = null, rtmpKey = null, isIn
       mode = "restream";
     }
     const baseFilePath = `${__dirname}/../stream_output/${streamData?.room_id}-${streamData?.username}`;
-
+    
+    console.info(`\nCtrl+C to stop downloading and exit`)
     await videoProcessing({liveUrl, rtmpServer, rtmpKey, isInfiniteMode, streamDuration, baseFilePath, mode});
     
   } catch (error) {
@@ -295,8 +299,8 @@ const tiktokDownload = async ({videoUrl, output="stream_output", format="mp4", d
         ''
       )}/${tt_username}-${Date.now()}.${format}`
   mkdirSync(path.dirname(fileName), { recursive: true })
-  await videoProcessing({liveUrl, rtmpServer, rtmpKey, isInfiniteMode, streamDuration: duration, baseFilePath:fileName, mode:"restream"});
   console.info(`\nCtrl+C to stop downloading and exit`)
+  await videoProcessing({liveUrl, rtmpServer, rtmpKey, isInfiniteMode, streamDuration: duration, baseFilePath:fileName, mode:"restream"});
 }catch (error) {
     reject(error);
   }
