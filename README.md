@@ -6,16 +6,18 @@ Bot Assistant untuk para live streamer di platform shopee. Cocok buat temen-teme
    ║   [1] Tambah Produk (CSV)                               [14] [LIVE] Auto Tampil Request Product               ║
    ║   [2] Tambah Produk + Filter Komisi (CAT ID)            [15] [LIVE] Unban Live                                ║
    ║   [3] Tambah Produk + Filter Komisi (Keyword)           [16] [LIVE] Auto Host Reply                           ║
-   ║   [4] Delete All Favorite                               [17] [LIVE] Auto Host Interaktif & Anti Haters        ║
-   ║   [5] [LIVE] Bom Like                                   [18] [LIVE] Auto Lelang                               ║
-   ║   [6] [LIVE] Bom Share                                  [19] [LIVE] Paket BOM!                                ║
-   ║   [7] [LIVE] Bom Buy                                    [20] [LIVE] Paket Gacor (Harus sudah start Live!)     ║
-   ║   [8] [LIVE] Bom View                                   [21] [LIVE] Paket Rebahan (Akun fresh -> GACOR)       ║
-   ║   [9] [LIVE] Bom Komen                                  [22] [TOOL] Video Downloader (TT, SHP, TOPED, dll)!   ║
-   ║   [10] [LIVE] Auto Share Voucher                        [23] [TOOL] Video Restream Live -> Shopee!            ║
-   ║   [11] [LIVE] Auto Banned Bad Komen                     [24] [TOOL] Video Stream File -> Shopee!              ║
-   ║   [12] [LIVE] Check Status                              [25] [TOOL] Export Favorite ke csv!                   ║
-   ║   [13] [LIVE] Check Vouchers                            [26] [TOOL] Clone Favorite dari Akun Lain!            ║
+   ║   [4] Delete All Favorite                               [19] [LIVE] Paket BOM!                                ║
+   ║   [5] [LIVE] Bom Like                                   [20] [LIVE] Paket Gacor (Harus sudah start Live!)     ║
+   ║   [6] [LIVE] Bom Share                                  [21] [LIVE] Paket Rebahan (Akun fresh -> GACOR)       ║
+   ║   [7] [LIVE] Bom Buy                                    [22] [TOOL] Video Downloader (TT, SHP, TOPED, dll)!   ║
+   ║   [8] [LIVE] Bom View                                   [23] [TOOL] Video Restream Live -> Shopee!            ║
+   ║   [9] [LIVE] Bom Komen                                  [24] [TOOL] Video Stream File -> Shopee!              ║
+   ║   [10] [LIVE] Auto Share Voucher                        [25] [TOOL] Export Favorite ke csv!                   ║
+   ║   [11] [LIVE] Auto Banned Bad Komen                     [26] [TOOL] Clone Favorite dari Akun Lain!            ║
+   ║   [12] [LIVE] Check Status                              [27] [LIVE] Auto Polling!                             ║
+   ║   [13] [LIVE] Check Vouchers                            [28] [LIVE] Monitoring Dashboard by Telegram!         ║
+   ║   [14] [LIVE] Auto Tampil Request Product               [29] [TOOL] Sewa HP!                                  ║
+   ║   [15] [LIVE] Unban Live                                                                                      ║
    ║                                                                                                               ║
    ╙───────────────────────────────────────────────────────────────────────────────────────────────────────────────╜
 **Fitur Ujicoba : [3, 25, 26]
