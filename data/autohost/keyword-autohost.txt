@@ -1,0 +1,29 @@
+stock: Semua barang ready stock ya kak silakan diorder kakak.
+diskon: Untuk voucher diskon / gratis ongkir silahkan ditonton saja livenya ya kak nanti muncul popup vochernya tinggal diclaim saja kakak.
+stok: Semua barang ready stock ya kak silakan diorder kakak.
+spill: Maaf kak tidak bisa spill semua ya kak. Bisa langsung cek Ulasan dan Gambar silakan diorder kakak.
+perkenalkan: Maaf kak tidak bisa spill semua ya kak. Bisa langsung cek Ulasan dan Gambar silakan diorder kakak.
+introduce: Maaf kak tidak bisa spill semua ya kak. Bisa langsung cek Ulasan dan Gambar silakan diorder kakak.
+eta: Maaf kak tidak bisa spill semua ya kak. Bisa langsung cek Ulasan dan Gambar silakan diorder kakak.
+warna: Warna Random dan Bisa dipilih tergantung Etalase ya kak silakan diorder kakak.
+harga: Harga sesuai yang ada di Etalase ya kak silakan diorder kakak.
+dibaca: Kita baca kok kak satu-satu komentarnya jika komentar kakak belum dibaca mungkin ketiban ya kak oleh yang lain jadi ditunggu saja kak.
+promo: Cek promo menarik di livenya kak! Ada banyak penawaran spesial hari ini.
+ukuran: Tersedia dalam berbagai ukuran kak. Cek ketersediaan di Etalase ya!
+kualitas: Produk kami terjamin kualitasnya kak. Yuk segera diorder!
+diskon2: Jangan lewatkan diskon tambahan di livenya kak. Buruan cek sekarang!
+paket: Kami juga menyediakan paket hemat kak. Info lebih lanjut cek di Etalase ya!
+garansi: Garansi kepuasan pelanggan kami berikan untuk setiap pembelian kak. Belanja dengan aman!
+ongkir: Info lebih lanjut tentang tarif pengiriman cek di Etalase kak. Selamat berbelanja!
+update: Dapatkan update terbaru produk dan promo di livenya kak. Jangan sampai ketinggalan!
+pertanyaan: Ada pertanyaan? Jangan ragu untuk bertanya di livenya kak. Kami siap membantu!
+fitur: Cek fitur-fitur menarik produk kami di Etalase kak. Pasti cocok dengan kebutuhan Anda!
+caraorder: Belum tahu cara order? Langsung aja cek panduan cara order di livenya kak. Mudah dan cepat!
+testimoni: Baca testimoni dari pelanggan kami di Ulasan kak. Mereka puas Anda juga akan puas!
+tanya: Boleh tanya-tanya seputar produk di livenya kak. Kami siap memberikan informasi!
+pengiriman: Informasi lebih lanjut tentang pengiriman ada di Etalase kak. Yuk dicek!
+return: Kebetulan ada kebijakan return kak. Cek di Etalase untuk info lengkapnya!
+pengiriman: Pemesanan yang dibayarkan di atas jam 3 akan di proses besok kakak.
+warna: Warna Random dan Bisa dipilih tergantung Etalase ya kak silakan diorder kakak.
+siaran: Kita live langsung kak buka Siaran ulang jika komentar kakak belum dibaca mungkin ketiban ya kak oleh yg lain jadi ditunggu saja kak.
+live: Kita live langsung kak buka live orang jika komentar kakak belum dibaca mungkin ketiban ya kak oleh yg lain jadi ditunggu saja kak.
