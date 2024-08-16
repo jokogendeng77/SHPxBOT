@@ -3,25 +3,21 @@ Bot Assistant untuk para live streamer di platform shopee. Cocok buat temen-teme
 ```
    ╓ MAIN MENU ────────────────────────────────────────────────────────────────────────────────────────────────────╖
    ║                                                                                                               ║
-   ║   [1] Tambah Produk (CSV)                               [14] [LIVE] Auto Tampil Request Product               ║
-   ║   [2] Tambah Produk + Filter Komisi (CAT ID)            [15] [LIVE] Unban Live                                ║
-   ║   [3] Tambah Produk + Filter Komisi (Keyword)           [16] [LIVE] Auto Host Reply                           ║
-   ║   [4] Delete All Favorite                               [19] [LIVE] Paket BOM!                                ║
-   ║   [5] [LIVE] Bom Like                                   [20] [LIVE] Paket Gacor (Harus sudah start Live!)     ║
-   ║   [6] [LIVE] Bom Share                                  [21] [LIVE] Paket Rebahan (Akun fresh -> GACOR)       ║
-   ║   [7] [LIVE] Bom Buy                                    [22] [TOOL] Video Downloader (TT, SHP, TOPED, dll)!   ║
-   ║   [8] [LIVE] Bom View                                   [23] [TOOL] Video Restream Live -> Shopee!            ║
-   ║   [9] [LIVE] Bom Komen                                  [24] [TOOL] Video Stream File -> Shopee!              ║
-   ║   [10] [LIVE] Auto Share Voucher                        [25] [TOOL] Export Favorite ke csv!                   ║
-   ║   [11] [LIVE] Auto Banned Bad Komen                     [26] [TOOL] Clone Favorite dari Akun Lain!            ║
-   ║   [12] [LIVE] Check Status                              [27] [LIVE] Auto Polling!                             ║
-   ║   [13] [LIVE] Check Vouchers                            [28] [LIVE] Monitoring Dashboard by Telegram!         ║
-   ║   [14] [LIVE] Auto Tampil Request Product               [29] [TOOL] Sewa HP!                                  ║
-   ║   [15] [LIVE] Unban Live                                                                                      ║
+   ║   [0] Shopee Manage cookie akun                  [12] [ Live ] Paket Mager [Auto All]                         ║
+   ║   [1] [ Live ] Auto Komen by random User         [13] Manage Akun Untuk Moderator Live                        ║
+   ║   [2] [ Live ] Random Auto Buy / Fake Buy        [14] [ Live ] Custom Pin Komen Ke dalam Live by Host         ║
+   ║   [3] [ Live ] Bom Like Live                     [15] [ Live ] Auto Pin by Random Product                     ║
+   ║   [4] [ Live ] Bom Share by Interval             [16] [ Live ] Paket Semi Mager [Auto tanpa interaksiHost]    ║
+   ║   [5] [ Live ] Auto Pin by User Request Product  [17] [ Live ] End Live Sesuai Jam / Share                    ║
+   ║   [6] [ Live ] Stream / Re-Stream                [18] [ Live ] Shopee Copy Etalase orang ke txt               ║
+   ║   [7] [ Live ] Viewbost Viewbost stay            [19] [ Live ] Track Total penjualan Telegram ke @thelegzbot  ║
+   ║   [8] Ekspor Favorit item ke .txt                [20] [ Live ] tambah akun tumbal / manage akun tumbal        ║
+   ║   [9] [ Live ] Auto Host + Banned Block User     [21] Salin Etalase                                           ║
+   ║   [10] [ Live ] Auto Banned Chat + Block User    [22] Live Video Downloader (TT, SHP, TOPED, dll)!            ║
+   ║   [11] [ Live ] GET RTMP & Key streaming                                                                      ║     ║                                                                                                               ║
    ║                                                                                                               ║
    ╙───────────────────────────────────────────────────────────────────────────────────────────────────────────────╜
-**Fitur Ujicoba : [3, 25, 26]
-**Fitur Sedang Dikembangkan : [21]
+
 ```
 
 FITUR & KEGUNAAN: 
