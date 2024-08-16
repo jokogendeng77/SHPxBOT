@@ -1,6 +1,6 @@
 # SHPxBOT
 A Bot Assistant for live streamers on the Shopee platform. Suitable for those who are still solo and do not have a moderator yet.
-
+```
    ╓ MAIN MENU ────────────────────────────────────────────────────────────────────────────────────────────────────╖
    ║                                                                                                               ║
    ║   [0] Manage Shopee Account Cookies              [12] [ Live ] Package Mager [Auto All]                       ║
@@ -17,6 +17,7 @@ A Bot Assistant for live streamers on the Shopee platform. Suitable for those wh
    ║   [11] [ Live ] GET RTMP & Key streaming                                                                      ║     ║                                                                                                               ║
    ║                                                                                                               ║
    ╙───────────────────────────────────────────────────────────────────────────────────────────────────────────────╜
+```
 
 FEATURES & USAGE:
 For now, these features are still simple, please try them out..
