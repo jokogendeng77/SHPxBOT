@@ -1,4 +1,7 @@
 # SHPxBOT
+```
+#CURRENTLY NOT MAINTAINED FOR THE TIME BEING, FURTHER UPDATE WOULD BE MADE JUST TRACK THE LAST RELEASE LATER ON. THANKS EVERYONE!
+```
 A Bot Assistant for live streamers on the Shopee platform. Suitable for those who are still solo and do not have a moderator yet.
 ```
    ╓ MAIN MENU ────────────────────────────────────────────────────────────────────────────────────────────────────╖
