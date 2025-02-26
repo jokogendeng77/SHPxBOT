@@ -1,7 +1,5 @@
 # SHPxBOT
-```
-#CURRENTLY NOT MAINTAINED FOR THE TIME BEING, FURTHER UPDATE WOULD BE MADE JUST TRACK THE LAST RELEASE LATER ON. THANKS EVERYONE!
-```
+
 A Bot Assistant for live streamers on the Shopee platform. Suitable for those who are still solo and do not have a moderator yet.
 ```
    ╓ MAIN MENU ────────────────────────────────────────────────────────────────────────────────────────────────────╖
@@ -65,7 +63,12 @@ By using SHPxBOT, live streamers on Shopee can:
 * The developer is not responsible for any consequences resulting from the use of SHPxBOT.
 * SHPxBOT is a tool and should be used responsibly and in accordance with Shopee's community guidelines.
 
-
+### Payment
+- For Indonesian, use QR payment inside the apps
+- For other country, i only receive SOLANA (lifetime only 1 SOL)
+  ```
+  DQwZ45X7D7rxRbRKgwrfPi8uekXgfBGkhjYmNS5Cq948
+  ```
 
 
 DISCLAIMER:
